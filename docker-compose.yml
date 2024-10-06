@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    image: gestionusuarioapi
+    build:
+      context: .
+      dockerfile: GestionUsuarioBiblioteca/Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+volumes:
+  mongo-data:
