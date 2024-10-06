@@ -20,9 +20,9 @@ namespace GestionUsuarioBiblioteca.Controllers
             await _userService.GetAsync();
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(int id) // Cambiado a int
+        public async Task<ActionResult<User>> GetById(int id)
         {
-            var user = await _userService.GetByIdAsync(id); // Cambiado a int
+            var user = await _userService.GetByIdAsync(id);
             if (user == null) return NotFound();
             return user;
         }
@@ -30,42 +30,42 @@ namespace GestionUsuarioBiblioteca.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] User user)
         {
-            // No se debe establecer Id en el cuerpo del usuario
             await _userService.CreateAsync(user);
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user); // Ya no es necesario convertir a string
+            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] User updatedUser) // Cambiado a int
+        public async Task<IActionResult> Update(int id, [FromBody] User updatedUser)
         {
-            var user = await _userService.GetByIdAsync(id); // Cambiado a int
+            var user = await _userService.GetByIdAsync(id); 
             if (user == null) return NotFound();
 
-            updatedUser.Id = user.Id; // Asegurarse de mantener el mismo Id
-            await _userService.UpdateAsync(id, updatedUser); // Cambiado a int
+            updatedUser.Id = user.Id; 
+            await _userService.UpdateAsync(id, updatedUser);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) // Cambiado a int
+        public async Task<IActionResult> Delete(int id)
         {
-            var user = await _userService.GetByIdAsync(id); // Cambiado a int
+            var user = await _userService.GetByIdAsync(id); 
             if (user == null) return NotFound();
 
-            await _userService.DeleteAsync(id); // Cambiado a int
+            await _userService.DeleteAsync(id);
             return NoContent();
         }
 
         [HttpGet("validate/{id}")]
-        public async Task<IActionResult> ValidateUserForLoan(int id) // Cambiado a int
+        public async Task<IActionResult> ValidateUserForLoan(int id)
         {
-            var user = await _userService.GetByIdAsync(id); // Cambiado a int
+            var user = await _userService.GetByIdAsync(id);
             if (user == null) return NotFound();
 
             if (user.HasPenalty || user.HasActiveLoan)
-                return BadRequest("Usuario no puede tomar prestado más libros.");
+                return StatusCode(403, "Usuario no puede tomar prestado más libros.");  // Código de respuesta cambiado a 403
 
             return Ok("Usuario puede tomar prestado libros.");
         }
+
     }
 }
