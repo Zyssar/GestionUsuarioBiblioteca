@@ -24,6 +24,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.Urls.Add("http://0.0.0.0:5001");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
